@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <style> 
+            .mainDiv {
+                -webkit-column-count: 2; /* Chrome, Safari, Opera */
+                -moz-column-count: 2; /* Firefox */
+                column-count: 2;
+            }
+            button.link { background:none;border:none; }
+            #smh_player {
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 40px;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="margin-top: 30px;text-align: center;width: 261px;margin-left: auto;margin-right: auto;">
+            <h2>Cube Map Video Layout</h2>
+        </div>
+        <script src="http://mediaplatform.streamingmediahosting.com/p/10012/sp/1001200/embedIframeJs/uiconf_id/6710347/partner_id/10012"></script>
+        <div id="smh_player" style="width: 740px; height: 416px;"></div>
+        <script>
+            kWidget.embed({
+                "targetId": "smh_player",
+                "wid": "_10012",
+                "uiconf_id": 6710347,
+                "flashvars": {
+                    "streamerType": "rtmp"
+                },
+                "params": {
+                    "wmode": "transparent"
+                },
+                "cache_st": 1466639737,
+                "entry_id": "0_g922e4oe"
+            });
+        </script>
+    </body>
+</html>
