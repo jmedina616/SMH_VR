@@ -146,7 +146,7 @@ function initWebGL() {
         }
         geometry.dynamic = true;
 
-        mesh2 = new THREE.Mesh(geometry, videoMaterial);
+        mesh2 = new THREE.Mesh(geometry, videoMaterial['video']);
         scene2.add(mesh2);
 
         function setOrientationControls(e) {
