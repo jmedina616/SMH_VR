@@ -127,7 +127,7 @@ function initWebGL() {
         }
         geometry.dynamic = true;
 
-        mesh1 = new THREE.Mesh(geometry, videoMaterial['video']);
+        mesh1 = new THREE.Mesh(geometry, videoMaterial['blank']);
         scene1.add(mesh1);
 
         lat = Math.max(-85, Math.min(85, lat));
@@ -146,7 +146,7 @@ function initWebGL() {
         }
         geometry.dynamic = true;
 
-        mesh2 = new THREE.Mesh(geometry, videoMaterial['video']);
+        mesh2 = new THREE.Mesh(geometry, videoMaterial['blank']);
         scene2.add(mesh2);
 
         function setOrientationControls(e) {
@@ -207,8 +207,8 @@ function render() {
     {
         if (USE_RIFT) {
             //effect.render(scene, camera);
-            var width = Math.round(videoElement.offsetWidth / 2),
-                height = videoElement.offsetHeight;
+            var width = Math.round(window.innerWidth / 2),
+                    height = window.innerHeight;
             // Render left eye
             renderer.setViewport(0, 0, width, height);
             renderer.setScissor(0, 0, width, height);
@@ -393,6 +393,7 @@ function resize() {
 function initSMHVR() {
     WIDTH = window.innerWidth;
     HEIGHT = window.innerHeight;
+
     initWebGL();
     animate();
     initGui();
