@@ -28,7 +28,8 @@ var OculusRift = {
 
 //VIDEO RENDERING
 
-var videoImage, videoImageContext, videoTexture, videoMaterial;
+var videoImage, videoImageContext, videoTexture;
+var videoMaterial = {};
 var renderer;
 var effect;
 
@@ -38,7 +39,7 @@ var WIDTH, HEIGHT;
 var cameraLeft, cameraRight;
 var scene1, scene2;
 var deviceO = false;
-var mesh;
+var mesh1, mesh2;
 var controlsL, controlsR;
 var geometry;
 var VIEW_INCREMENT = 2;
@@ -72,14 +73,6 @@ function initWebGL() {
     //        worldFactor:WORLD_FACTOR
     //    } );
     //    effect.setSize(WIDTH, HEIGHT );
-
-    effect = new THREE.StereoEffect(renderer);
-    effect.setSize(WIDTH, HEIGHT);
-
-    //    camera = new THREE.PerspectiveCamera( 78, window.innerWidth / window.innerHeight, 1, 1000);
-    //    camera.rotation.order = "YXZ";
-    //    camera.target = new THREE.Vector3( 0, 0, 0 );
-    //    camera.position.z = 0.1;
 
     // Left Eye
     cameraLeft = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 4000);
@@ -116,8 +109,11 @@ function initWebGL() {
         videoTexture.format = THREE.RGBFormat;
         videoTexture.generateMipmaps = false;
 
-        videoMaterial = new THREE.MeshBasicMaterial({
+        videoMaterial['video'] = new THREE.MeshBasicMaterial({
             map: videoTexture
+        });
+        videoMaterial['blank'] = new THREE.MeshBasicMaterial({
+            color: 0x000000
         });
 
         // left sphere
@@ -129,18 +125,14 @@ function initWebGL() {
                 uvs[ i ][ j ].x *= 0.5;
             }
         }
+        geometry.dynamic = true;
 
-        mesh = new THREE.Mesh(geometry, videoMaterial);
-        scene1.add(mesh);
-//        mesh.position.x = 0;
-//        mesh.position.y = 2.5;
-//        //mesh.position.z = 1;
-//        mesh.position.z = -65;
+        mesh1 = new THREE.Mesh(geometry, videoMaterial['video']);
+        scene1.add(mesh1);
 
         lat = Math.max(-85, Math.min(85, lat));
         phi = THREE.Math.degToRad(90 - lat);
         theta = THREE.Math.degToRad(lon);
-
 
         // right sphere
         geometry = new THREE.SphereGeometry(500, 60, 40);
@@ -152,14 +144,10 @@ function initWebGL() {
                 uvs[ i ][ j ].x += 0.5;
             }
         }
+        geometry.dynamic = true;
 
-        mesh = new THREE.Mesh(geometry, videoMaterial);
-        scene2.add(mesh);
-//        mesh.position.x = 0;
-//        mesh.position.y = 2.5;
-//        //mesh.position.z = 1;
-//        mesh.position.z = -65;                                                       
-
+        mesh2 = new THREE.Mesh(geometry, videoMaterial);
+        scene2.add(mesh2);
 
         function setOrientationControls(e) {
             if (!e.alpha) {
@@ -187,9 +175,24 @@ function initWebGL() {
         window.addEventListener('mouseup', onDocumentMouseUp, false);
         window.addEventListener('mousewheel', onDocumentMouseWheel, false);
         window.addEventListener('MozMousePixelScroll', onDocumentMouseWheel, false);
-
+        videoElement.addEventListener('ended', removeMaterial, false);
+        videoElement.addEventListener('canplaythrough', addMaterial, false);
     }
 
+}
+
+function removeMaterial() {
+    mesh1.material = videoMaterial['blank'];
+    mesh1.material.needsUpdate = true;
+    mesh2.material = videoMaterial['blank'];
+    mesh2.material.needsUpdate = true;
+}
+
+function addMaterial() {
+    mesh1.material = videoMaterial['video'];
+    mesh1.material.needsUpdate = true;
+    mesh2.material = videoMaterial['video'];
+    mesh2.material.needsUpdate = true;
 }
 
 function animate() {
@@ -203,10 +206,9 @@ function render() {
     else
     {
         if (USE_RIFT) {
-            effect.render(scene, camera);
-        } else {
+            //effect.render(scene, camera);
             var width = Math.round(videoElement.offsetWidth / 2),
-                    height = videoElement.offsetHeight;
+                height = videoElement.offsetHeight;
             // Render left eye
             renderer.setViewport(0, 0, width, height);
             renderer.setScissor(0, 0, width, height);
@@ -220,8 +222,10 @@ function render() {
             renderer.setScissorTest(true);
             cameraRight.updateProjectionMatrix();
             renderer.render(scene2, cameraRight);
-
-            //renderer.render(scene, camera); 
+        } else {
+            renderer.setScissorTest(false);
+            cameraLeft.updateProjectionMatrix();
+            renderer.render(scene1, cameraLeft);
         }
     }
 }
@@ -389,7 +393,6 @@ function resize() {
 function initSMHVR() {
     WIDTH = window.innerWidth;
     HEIGHT = window.innerHeight;
-
     initWebGL();
     animate();
     initGui();
