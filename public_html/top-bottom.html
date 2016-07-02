@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <style> 
+            .mainDiv {
+                -webkit-column-count: 2; /* Chrome, Safari, Opera */
+                -moz-column-count: 2; /* Firefox */
+                column-count: 2;
+            }
+            button.link { background:none;border:none; }
+            #smh_player {
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 40px;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="margin-top: 30px;text-align: center;width: 240px;margin-left: auto;margin-right: auto;">
+            <h2>SMH VR 3D Top/Bottom DEMO</h2>
+        </div>
+        <script src="http://mediaplatform.streamingmediahosting.com/p/10012/sp/1001200/embedIframeJs/uiconf_id/6715379/partner_id/10012"></script>
+        <div id="smh_player" style="width: 740px; height: 416px;"></div>
+        <script>
+            var KDP_ELEMENT;
+            mw.setConfig('Kaltura.LeadWithHTML5', true);
+            mw.setConfig('Kaltura.EnableEmbedUiConfJs', true);
+            kWidget.embed({
+                "targetId": "smh_player",
+                "wid": "_10012",
+                "uiconf_id": 6715379,
+                "flashvars": {
+                    "smhVR": {
+                        "plugin": true,
+                        "iframeHTML5Js1": "js/vrIframeAddinTB.js"
+                    },
+                    "controlBarContainer": {
+                        'plugin': true,
+                        "hover": false
+                    },
+                    "sourceSelector": {
+                        "plugin": true,
+                        "switchOnResize": false,
+                        "simpleFormat": true,
+                        "displayMode": "sizebitrate"
+                    },
+                    "mediaProxy.preferedFlavorBR": "5000",
+                    "streamerType": "http",
+                    'smhVRBtn': {
+                        'plugin': true
+                    }
+                },
+                "params": {
+                    "wmode": "transparent"
+                },
+                "inlineScript": false,
+                "cache_st": 1661092397,
+                "entry_id": "0_48xd4zz1"
+            });
+
+            kWidget.addReadyCallback(function (playerId) {
+                var kdp = document.getElementById(playerId);
+                KDP_ELEMENT = kdp;
+            });
+            function gotoEntryId(newId)
+            {
+                KALTURA_ENTRYID = newId;
+                KDP_ELEMENT.sendNotification('changeMedia', {
+                    'entryId': newId
+                });
+            }
+        </script>
+        <div style="margin-top: 30px;text-align: center;width: 240px;margin-left: auto;margin-right: auto;">
+            <div style="font-weight: bold;font-size: 18px;margin-bottom: 20px;">Sample Videos</div>
+            <div><a href="#" onclick="gotoEntryId('0_48xd4zz1')">Panic at the Disco</a></div>
+            <div><a href="#" onclick="gotoEntryId('0_l27oyusw')">Capital</a></div>
+            <div><a href="#" onclick="gotoEntryId('0_9j682hgq')">Fitz Interview</a></div>
+            <div><a href="#" onclick="gotoEntryId('0_7n2sjnue')">Chris Carter</a></div>
+        </div>
+    </body>
+</html>
