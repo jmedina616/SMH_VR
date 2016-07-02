@@ -59,7 +59,7 @@ else
         startPanoWrapper();
     }
     loadjscssfiles(['http://mediaplatform.streamingmediahosting.com/html5/html5lib/v2.35//skins/kdark/css/smhVR.css'],'css', false);
-    loadjscssfiles(['js/three.js', 'js/OrbitControls.js', "js/DeviceOrientationControls.js", "js/THREEx.KeyboardState.js", "js/Detector.js", 'js/smh_3d_sbs.js'],'js', runIfNeeded); 			
+    loadjscssfiles(['js/three.js', 'js/OrbitControls.js', "js/DeviceOrientationControls.js", "js/THREEx.KeyboardState.js", "js/StereoEffect.js", "js/Detector.js", 'js/smhVR.js'],'js', runIfNeeded); 			
 	
     function setUpCanvas(){
         try{
@@ -202,7 +202,7 @@ else
             // or deletion of child nodes
             'childList': true,
             // Observes the addition or deletion
-            // of �grandchild� nodes
+            // of “grandchild” nodes
             'subtree': true
         }
 
